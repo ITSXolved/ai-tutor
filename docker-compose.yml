@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - REDIS_URL=redis://redis:6379/0
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    volumes:
+      - .:/app
+      - ./data/uploads:/app/data/uploads  # ← ADD THIS LINE
+    command: python app/main.py
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:
+
+# That's it! Just add ONE line: - ./data/uploads:/app/data/uploads
