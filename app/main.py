@@ -9,7 +9,6 @@ from services.session_service import SessionService
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    
     # Enable CORS
     CORS(app)
     
